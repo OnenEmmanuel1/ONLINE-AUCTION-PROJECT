@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: bidsecure_mysql
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD:-}"
+      MYSQL_DATABASE: ${DB_NAME:-bidsecure_db}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: bidsecure_app
+    restart: always
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: ${PORT:-3000}
+      NODE_ENV: production
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: "${DB_PASSWORD:-}"
+      DB_NAME: ${DB_NAME:-bidsecure_db}
+      SESSION_SECRET: ${SESSION_SECRET:-bidsecure_secret_key_calabar_2026_secure_auction}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-6f8d2b9e4a1c5f3a7b8e9d0c1b2a3f4e5d6c7b8a9f0e1d2c3b4a5f6e7d8c9b0a}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:

@@ -1,0 +1,41 @@
+<aside class="aucp-sidebar">
+  <div class="aucp-sidebar-brand">
+    <span>🛡️ BidSecure</span>
+    <span class="aucp-sidebar-brand-badge">Buyer</span>
+  </div>
+
+  <ul class="aucp-sidebar-nav">
+    <li class="aucp-sidebar-section">Bidding Desk</li>
+    <li>
+      <a href="/buyer/dashboard" class="aucp-sidebar-link <%= activeTab === 'dashboard' ? 'aucp-active' : '' %>">
+        📊 Overview
+      </a>
+    </li>
+    <li>
+      <a href="/buyer/browse" class="aucp-sidebar-link <%= activeTab === 'browse' ? 'aucp-active' : '' %>">
+        🔍 Live Auctions
+      </a>
+    </li>
+    <li>
+      <a href="/buyer/bid-history" class="aucp-sidebar-link <%= activeTab === 'bids' ? 'aucp-active' : '' %>">
+        📜 My Bid History
+      </a>
+    </li>
+    <li>
+      <a href="/buyer/won-auctions" class="aucp-sidebar-link <%= activeTab === 'won' ? 'aucp-active' : '' %>">
+        🏆 Won Auctions & Payment
+      </a>
+    </li>
+
+    <li class="aucp-sidebar-section">Selling Capabilities</li>
+    <li>
+      <a href="/seller/dashboard" class="aucp-sidebar-link <%= activeTab === 'seller-dashboard' ? 'aucp-active' : '' %>">
+        🏷️ Switch to Seller Portal
+      </a>
+    </li>
+  </ul>
+
+  <div class="aucp-sidebar-footer">
+    <div style="font-size:12px; color:#6B7280;">Calabar Security Node v1.0</div>
+  </div>
+</aside>

@@ -1,0 +1,22 @@
+<%- include('./partials/head', { title: title || 'Error – BidSecure' }) %>
+
+<div class="aucp-auth-container">
+  <div class="aucp-auth-box" style="text-align: center;">
+    <div style="font-size: 54px; font-weight: 800; color: var(--aucp-danger); margin-bottom: 12px;">
+      <%= code || 500 %>
+    </div>
+
+    <h1 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;"><%= title %></h1>
+
+    <p style="color: var(--aucp-text-secondary); margin-bottom: 24px; font-size: 14px;">
+      <%= message %>
+    </p>
+
+    <a href="/buyer/dashboard" class="aucp-btn aucp-btn-primary aucp-btn-block">
+      Return to Portal Dashboard
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

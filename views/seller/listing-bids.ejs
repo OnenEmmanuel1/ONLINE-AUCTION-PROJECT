@@ -1,0 +1,72 @@
+<%- include('../partials/head', { title: 'Listing Bids – BidSecure Seller' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarSeller', { activeTab: 'my-listings' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Bids Received on Listing' }) %>
+
+    <div class="aucp-content">
+
+      <div style="margin-bottom: 20px; font-size: 13px;">
+        <a href="/seller/my-listings">&larr; Back to My Listings</a>
+      </div>
+
+      <div class="aucp-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+          <h1 style="font-size: 22px; font-weight: 800;"><%= listing.title %></h1>
+          <span class="aucp-badge aucp-badge-<%= listing.status %>"><%= listing.status.toUpperCase() %></span>
+        </div>
+
+        <div class="aucp-grid-3" style="margin-bottom: 0;">
+          <div style="font-size: 13px; color: var(--aucp-text-secondary);">
+            Starting Price: <strong>₦<%= parseFloat(listing.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong>
+          </div>
+          <div style="font-size: 13px; color: var(--aucp-text-secondary);">
+            Reserve Price: <strong><%= listing.reserve_price ? '₦' + parseFloat(listing.reserve_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) : 'None' %></strong>
+          </div>
+          <div style="font-size: 13px; color: var(--aucp-text-secondary);">
+            Total Bids Placed: <strong><%= bids.length %></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">📜 Immutable Bids Audit Table</h2>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Bidder Name</th>
+                <th>Bidder Contact</th>
+                <th>Bid Amount</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (bids.length === 0) { %>
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--aucp-text-muted);">No bids have been submitted on this listing yet.</td>
+                </tr>
+              <% } else { %>
+                <% bids.forEach((bid, index) => { %>
+                  <tr class="<%= index === 0 ? 'aucp-table-row-highlight' : '' %>">
+                    <td><%= index + 1 %></td>
+                    <td><strong><%= bid.bidder_name %></strong></td>
+                    <td><%= bid.bidder_contact %></td>
+                    <td><strong style="color: var(--aucp-primary);">₦<%= parseFloat(bid.amount).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong></td>
+                    <td><%= new Date(bid.placed_at).toLocaleString() %></td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

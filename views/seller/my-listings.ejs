@@ -1,0 +1,81 @@
+<%- include('../partials/head', { title: 'My Listings – BidSecure Seller' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarSeller', { activeTab: 'my-listings' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'My Listings Management' }) %>
+
+    <div class="aucp-content">
+
+      <% if (success) { %>
+        <div class="aucp-alert aucp-alert-success"><%= success %></div>
+      <% } %>
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">📦 All My Auction Listings</h2>
+          <a href="/seller/create-listing" class="aucp-btn aucp-btn-secondary aucp-btn-sm">➕ Create Listing</a>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Starting Price</th>
+                <th>Reserve Price</th>
+                <th>Highest Bid</th>
+                <th>Status</th>
+                <th>End Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (listings.length === 0) { %>
+                <tr>
+                  <td colspan="8" style="text-align: center; color: var(--aucp-text-muted);">You have no listings in the database yet.</td>
+                </tr>
+              <% } else { %>
+                <% listings.forEach(item => { %>
+                  <tr>
+                    <td><strong><%= item.title %></strong></td>
+                    <td><span class="aucp-badge" style="background:#E5E7EB; color:#374151;"><%= item.category %></span></td>
+                    <td>₦<%= parseFloat(item.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></td>
+                    <td><%= item.reserve_price ? '₦' + parseFloat(item.reserve_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) : 'None' %></td>
+                    <td><strong style="color: var(--aucp-primary);">₦<%= parseFloat(item.current_highest_bid).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong></td>
+                    <td>
+                      <% if (item.status === 'active') { %>
+                        <span class="aucp-badge aucp-badge-active">ACTIVE</span>
+                      <% } else if (item.status === 'sold') { %>
+                        <span class="aucp-badge aucp-badge-sold">SOLD</span>
+                      <% } else if (item.status === 'draft') { %>
+                        <span class="aucp-badge aucp-badge-draft">DRAFT</span>
+                      <% } else { %>
+                        <span class="aucp-badge aucp-badge-ended"><%= item.status.toUpperCase() %></span>
+                      <% } %>
+                    </td>
+                    <td><%= new Date(item.end_at).toLocaleDateString() %></td>
+                    <td>
+                      <div style="display:flex; gap:6px;">
+                        <a href="/seller/listing-bids/<%= item.id %>" class="aucp-btn aucp-btn-outline aucp-btn-sm">
+                          Bids (<%= item.bid_count || 0 %>)
+                        </a>
+                        <% if (item.status === 'draft') { %>
+                          <form action="/seller/publish-listing/<%= item.id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="aucp-btn aucp-btn-primary aucp-btn-sm">Publish</button>
+                          </form>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

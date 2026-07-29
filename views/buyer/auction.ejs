@@ -1,0 +1,198 @@
+<%- include('../partials/head', { title: listing.title + ' – Live Auction Room' }) %>
+
+<div style="background-color: var(--aucp-bg); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Full-Width Public Header Navigation (No dashboard sidebar on product page) -->
+  <%- include('../partials/publicHeader', { activeTab: 'browse' }) %>
+
+  <main style="padding: 40px; max-width: 1200px; margin: 0 auto; width: 100%; flex-grow: 1;">
+
+    <!-- Breadcrumb navigation -->
+    <div style="margin-bottom: 24px; font-size: 14px; color: var(--aucp-text-muted);">
+      <a href="/buyer/browse" style="color: var(--aucp-text-secondary);">&larr; Back to Live Auctions</a> / <%= listing.category %> / <span style="color: var(--aucp-text-primary); font-weight: 600;"><%= listing.title %></span>
+    </div>
+
+    <div class="aucp-grid-3">
+      
+      <!-- Left 2 Columns: Item Media & Details -->
+      <div style="grid-column: span 2;">
+        <div class="aucp-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+            <span class="aucp-badge" style="background:#1E293B; color:#94A3B8;"><%= listing.category %></span>
+            
+            <% if (listing.status === 'active') { %>
+              <span class="aucp-badge aucp-badge-live">LIVE AUCTION ACTIVE</span>
+            <% } else { %>
+              <span class="aucp-badge aucp-badge-ended">AUCTION <%= listing.status.toUpperCase() %></span>
+            <% } %>
+          </div>
+
+          <h1 style="font-size: 28px; font-weight: 800; color: var(--aucp-text-primary); margin-bottom: 12px;"><%= listing.title %></h1>
+          
+          <div style="font-size: 13px; color: var(--aucp-text-secondary); margin-bottom: 24px; display:flex; gap: 20px;">
+            <span>Seller: <strong><%= listing.seller_name %></strong></span>
+            <span>Listed: <strong><%= new Date(listing.created_at).toLocaleDateString() %></strong></span>
+          </div>
+
+          <!-- Item Main Image with Overlay Countdown Pill -->
+          <div style="position: relative; width: 100%; border-radius: var(--aucp-radius-md); overflow: hidden; background: #080A0F; border: 1px solid var(--aucp-border); margin-bottom: 28px;">
+            <% if (images && images.length > 0) { %>
+              <img src="<%= images[0].filename.startsWith('http') ? images[0].filename : '/uploads/listings/' + images[0].filename %>" alt="<%= listing.title %>" style="width: 100%; max-height: 440px; object-fit: contain; display: block;">
+            <% } else { %>
+              <div style="width: 100%; height: 340px; display: flex; align-items: center; justify-content: center; font-size: 54px; color: var(--aucp-text-muted);">
+                🖼️
+              </div>
+            <% } %>
+
+            <!-- Live Countdown Overlay Pill (ID: timerDisplay intact) -->
+            <div class="aucp-timer-pill-overlay">
+              ⏱️ <span id="timerDisplay">Calculating...</span>
+            </div>
+          </div>
+
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 10px; color: var(--aucp-text-primary);">Description & Item Provenance</h3>
+          <p style="color: var(--aucp-text-secondary); line-height: 1.7; white-space: pre-line; font-size: 14px;"><%= listing.description %></p>
+        </div>
+
+        <!-- Immutable Bid History Table Log (ID: bidHistoryBody intact) -->
+        <div class="aucp-card">
+          <div class="aucp-card-header">
+            <h3 class="aucp-card-title">📜 Immutable Bid History Audit Log</h3>
+            <span style="font-size: 12px; color: var(--aucp-text-muted);">Real-time Append-Only Log</span>
+          </div>
+
+          <div class="aucp-table-container">
+            <table class="aucp-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Bidder</th>
+                  <th>Bid Amount</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="bidHistoryBody">
+                <% if (bids.length === 0) { %>
+                  <tr>
+                    <td colspan="4" style="text-align: center; color: var(--aucp-text-muted);">No bids placed yet. Be the first!</td>
+                  </tr>
+                <% } else { %>
+                  <% bids.forEach((bid, idx) => { %>
+                    <tr class="<%= idx === 0 ? 'aucp-table-row-highlight' : '' %>">
+                      <td><%= idx + 1 %></td>
+                      <td><strong><%= bid.bidder_name %></strong></td>
+                      <td>₦<%= parseFloat(bid.amount).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></td>
+                      <td>
+                        <%= new Date(bid.placed_at).toLocaleString() %>
+                        <% if (idx === 0) { %>
+                          <span class="aucp-badge aucp-badge-active" style="margin-left: 6px;">Highest</span>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Bidding Console (IDs intact) -->
+      <div>
+        
+        <!-- Highest Bid Display Box (IDs: highestBidValue & minBidNotice intact) -->
+        <div class="aucp-bid-display-box">
+          <div style="font-size: 12px; text-transform: uppercase; font-weight: 800; color: var(--aucp-text-secondary); letter-spacing: 0.5px;">Current Highest Bid</div>
+          <div id="highestBidValue" class="aucp-bid-amount-giant">
+            ₦<%= parseFloat(listing.current_highest_bid) > 0 ? parseFloat(listing.current_highest_bid).toLocaleString('en-NG', { minimumFractionDigits: 2 }) : parseFloat(listing.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
+          </div>
+          <div id="minBidNotice" style="font-size: 12px; color: var(--aucp-text-secondary); font-weight: 600;">
+            Starting Price: ₦<%= parseFloat(listing.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
+          </div>
+        </div>
+
+        <!-- Security Bidding Form Box / Authentication Prompt -->
+        <div class="aucp-card">
+          <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; color: var(--aucp-text-primary);">Place Verified Bid</h3>
+
+          <div id="bidAlertBox" class="aucp-alert" style="display: none;"></div>
+
+          <% if (!currentUser) { %>
+            <!-- Guest User Callout: Login Required to Bid -->
+            <div style="text-align: center; padding: 12px 0;">
+              <div style="font-size: 32px; margin-bottom: 8px;">🔒</div>
+              <h4 style="font-size: 15px; font-weight: 800; color: #FFFFFF; margin-bottom: 6px;">Sign In Required to Bid</h4>
+              <p style="font-size: 13px; color: var(--aucp-text-secondary); margin-bottom: 18px; line-height: 1.5;">
+                You can inspect live listings freely, but you must sign in to submit a verified bid.
+              </p>
+              <a href="/login?returnUrl=<%= encodeURIComponent('/buyer/auction/' + listing.id) %>" class="aucp-btn aucp-btn-primary aucp-btn-block" style="padding: 12px; font-size: 14px;">
+                Sign In to Place Bid &rarr;
+              </a>
+              <div style="margin-top: 14px; font-size: 12px; color: var(--aucp-text-muted);">
+                Don't have an account? <a href="/register" style="font-weight: 700; color: var(--aucp-primary);">Register Here</a>
+              </div>
+            </div>
+          <% } else if (listing.status !== 'active') { %>
+            <div class="aucp-alert aucp-alert-warning">
+              This auction has <%= listing.status %>. Bidding is currently closed.
+            </div>
+          <% } else if (currentUser.id === listing.seller_id) { %>
+            <div class="aucp-alert aucp-alert-warning">
+              <strong>Self-Bidding Restriction:</strong> You are the seller of this item. You cannot place bids on your own listing.
+            </div>
+          <% } else { %>
+            <form id="placeBidForm">
+              <div class="aucp-form-group">
+                <label class="aucp-form-label" for="amount">Enter Your Bid (NGN ₦)</label>
+                <input type="number" step="100" id="amount" name="amount" class="aucp-form-input" placeholder="e.g. <%= (parseFloat(listing.current_highest_bid) > 0 ? parseFloat(listing.current_highest_bid) + 1000 : parseFloat(listing.starting_price) + 1000) %>" required>
+              </div>
+
+              <div style="font-size: 12px; color: var(--aucp-text-muted); margin-bottom: 18px;">
+                🔒 Bids are final and verified against fraud detection rules in <code>aucpEngine.js</code>.
+              </div>
+
+              <button type="submit" class="aucp-btn aucp-btn-primary aucp-btn-block" style="padding: 12px; font-size: 15px;">
+                Place Bid Now
+              </button>
+            </form>
+          <% } %>
+        </div>
+
+        <!-- Reserve Price Notice Card -->
+        <div class="aucp-card" style="font-size: 13px; color: var(--aucp-text-secondary);">
+          <h4 style="font-weight: 700; margin-bottom: 6px; color: var(--aucp-text-primary);">Reserve Price Terms</h4>
+          <p style="line-height: 1.5;">
+            <% if (listing.reserve_price) { %>
+              This listing has a seller reserve threshold. Winning bid must meet or exceed reserve for transaction settlement.
+            <% } else { %>
+              No reserve price threshold. Highest valid bid wins at auction conclusion.
+            <% } %>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="aucp-footer">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <strong>BidSecure Calabar</strong> — Security-Focused Online Auction Portal
+      </div>
+      <div style="display: flex; gap: 20px;">
+        <a href="/" style="color: var(--aucp-text-muted);">Home</a>
+        <a href="/buyer/browse" style="color: var(--aucp-text-muted);">Browse</a>
+        <a href="/how-it-works" style="color: var(--aucp-text-muted);">How It Works</a>
+        <a href="/login" style="color: var(--aucp-text-muted);">Sign In</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="/js/aucp-auction.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    new AucpLiveAuction(<%= listing.id %>, "<%= listing.end_at %>");
+  });
+</script>

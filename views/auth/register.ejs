@@ -1,0 +1,59 @@
+<%- include('../partials/head', { title: 'Register Account – BidSecure Calabar' }) %>
+
+<div class="aucp-auth-container">
+  <div class="aucp-auth-box" style="max-width: 520px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h1 style="font-size: 26px; font-weight: 800; color: var(--aucp-primary);">🛡️ Register with BidSecure</h1>
+      <p class="aucp-auth-subtitle">Complete identity verification details to start bidding & listing items</p>
+    </div>
+
+    <% if (error) { %>
+      <div class="aucp-alert aucp-alert-danger">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/register" method="POST">
+      <div class="aucp-form-group">
+        <label class="aucp-form-label" for="name">Full Legal Name *</label>
+        <input type="text" id="name" name="name" class="aucp-form-input" placeholder="e.g. Bassey Edet Nsa" required>
+      </div>
+
+      <div class="aucp-form-group">
+        <label class="aucp-form-label" for="email">Email Address *</label>
+        <input type="email" id="email" name="email" class="aucp-form-input" placeholder="e.g. bassey@calabar.com" required>
+      </div>
+
+      <div class="aucp-grid-2" style="gap: 12px; margin-bottom: 0;">
+        <div class="aucp-form-group">
+          <label class="aucp-form-label" for="password">Password *</label>
+          <input type="password" id="password" name="password" class="aucp-form-input" placeholder="Min 8 characters" required>
+        </div>
+        <div class="aucp-form-group">
+          <label class="aucp-form-label" for="contact">Phone Contact *</label>
+          <input type="text" id="contact" name="contact" class="aucp-form-input" placeholder="+234 801 234 5678" required>
+        </div>
+      </div>
+
+      <div class="aucp-form-group">
+        <label class="aucp-form-label" for="address">Residential / Business Address in Calabar *</label>
+        <textarea id="address" name="address" class="aucp-form-textarea" rows="2" placeholder="e.g. 14 Marian Road, Calabar, Cross River State" required></textarea>
+      </div>
+
+      <div class="aucp-alert aucp-alert-warning" style="font-size: 12px; margin-bottom: 16px;">
+        📌 <strong>Identity Notice:</strong> Name, phone contact, and Calabar address are validated server-side before granting active bidding or seller status.
+      </div>
+
+      <button type="submit" class="aucp-btn aucp-btn-secondary aucp-btn-block">
+        Complete Registration & Verify Identity
+      </button>
+    </form>
+
+    <div style="margin-top: 20px; text-align: center; font-size: 14px;">
+      <a href="/login" style="font-weight: 600;">Already registered? Sign In here &rarr;</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

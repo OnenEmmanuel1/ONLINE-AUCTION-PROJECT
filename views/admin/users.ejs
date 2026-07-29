@@ -1,0 +1,91 @@
+<%- include('../partials/head', { title: 'User Management – BidSecure Admin' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarAdmin', { activeTab: 'users-mgmt' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Platform User Accounts & Privileges' }) %>
+
+    <div class="aucp-content">
+
+      <% if (success) { %>
+        <div class="aucp-alert aucp-alert-success"><%= success %></div>
+      <% } %>
+
+      <% if (error) { %>
+        <div class="aucp-alert aucp-alert-danger"><%= error %></div>
+      <% } %>
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">👥 Registered User Accounts</h2>
+          <span style="font-size: 13px; color: var(--aucp-text-muted);">Total Accounts: <%= users.length %></span>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email Address</th>
+                <th>Contact</th>
+                <th>Address (Calabar)</th>
+                <th>Capabilities</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(u => { %>
+                <tr>
+                  <td>#<%= u.id %></td>
+                  <td>
+                    <strong><%= u.name %></strong>
+                    <% if (u.role === 'admin') { %>
+                      <span class="aucp-role-chip aucp-role-admin" style="margin-left: 4px;">Admin</span>
+                    <% } %>
+                  </td>
+                  <td><%= u.email %></td>
+                  <td><%= u.contact || 'N/A' %></td>
+                  <td style="font-size: 12px; max-width: 200px;"><%= u.address || 'N/A' %></td>
+                  <td>
+                    <span class="aucp-badge" style="background: #E0F2FE; color: #0369A1;">
+                      <%= u.can_bid ? 'Bid ✓' : 'Bid ✗' %> | <%= u.can_sell ? 'Sell ✓' : 'Sell ✗' %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if (u.account_status === 'active') { %>
+                      <span class="aucp-badge aucp-badge-active">ACTIVE</span>
+                    <% } else { %>
+                      <span class="aucp-badge aucp-badge-unsold">SUSPENDED</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (u.role !== 'admin') { %>
+                      <% if (u.account_status === 'active') { %>
+                        <form action="/admin/users/suspend/<%= u.id %>" method="POST" style="display:inline;">
+                          <button type="submit" class="aucp-btn aucp-btn-danger aucp-btn-sm" onclick="return confirm('Suspend user <%= u.name %>?')">
+                            Suspend
+                          </button>
+                        </form>
+                      <% } else { %>
+                        <form action="/admin/users/activate/<%= u.id %>" method="POST" style="display:inline;">
+                          <button type="submit" class="aucp-btn aucp-btn-secondary aucp-btn-sm">
+                            Activate
+                          </button>
+                        </form>
+                      <% } %>
+                    <% } else { %>
+                      <span style="font-size: 12px; color: var(--aucp-text-muted);">Protected</span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

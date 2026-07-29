@@ -1,0 +1,80 @@
+<%- include('../partials/head', { title: 'Won Auctions & Payment – BidSecure' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarBuyer', { activeTab: 'won' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Won Auctions & Settlement' }) %>
+
+    <div class="aucp-content">
+
+      <% if (success) { %>
+        <div class="aucp-alert aucp-alert-success"><%= success %></div>
+      <% } %>
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">🏆 Auctions Won By Me</h2>
+          <span style="font-size: 13px; color: var(--aucp-text-muted);">Total Won: <%= transactions.length %></span>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>Listing Title</th>
+                <th>Seller</th>
+                <th>Winning Price</th>
+                <th>Payment Status</th>
+                <th>Encrypted Ref Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (transactions.length === 0) { %>
+                <tr>
+                  <td colspan="6" style="text-align: center; color: var(--aucp-text-muted);">You have not won any auctions yet. Keep bidding!</td>
+                </tr>
+              <% } else { %>
+                <% transactions.forEach(tx => { %>
+                  <tr>
+                    <td><strong><%= tx.listing_title %></strong></td>
+                    <td><%= tx.seller_name %></td>
+                    <td><strong style="color: var(--aucp-secondary);">₦<%= parseFloat(tx.final_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong></td>
+                    <td>
+                      <% if (tx.status === 'completed') { %>
+                        <span class="aucp-badge aucp-badge-active">PAYMENT COMPLETED</span>
+                      <% } else { %>
+                        <span class="aucp-badge aucp-badge-unsold">PENDING PAYMENT</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (tx.status === 'completed') { %>
+                        <code style="font-size: 11px; background: var(--aucp-bg); padding: 2px 6px; border-radius: 4px;">
+                          🔒 AES-256-GCM Encrypted
+                        </code>
+                      <% } else { %>
+                        <span style="color: var(--aucp-text-muted); font-size: 12px;">Awaiting Settlement</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (tx.status === 'pending_payment') { %>
+                        <a href="/payment/checkout/<%= tx.id %>" class="aucp-btn aucp-btn-secondary aucp-btn-sm">
+                          Complete Simulated Payment &rarr;
+                        </a>
+                      <% } else { %>
+                        <a href="/payment/success?tx=<%= tx.id %>" class="aucp-btn aucp-btn-outline aucp-btn-sm">
+                          View Receipt
+                        </a>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

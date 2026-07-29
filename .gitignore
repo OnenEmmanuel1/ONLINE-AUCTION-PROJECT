@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+jspm_packages/
+bower_components/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.override
+
+# User uploads & dynamic runtime assets
+public/uploads/*
+!public/uploads/.gitkeep
+public/uploads/listings/*
+!public/uploads/listings/.gitkeep
+
+# Logs and Debug outputs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data & temp files
+pids
+*.pid
+*.seed
+*.pid.lock
+lib-cov
+coverage/
+.nyc_output
+.cache/
+.npm
+.eslintcache
+*.tgz
+
+# OS System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE & Editor files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# AI / Local Tool Caches
+.gemini/
+.agents/
+

@@ -1,0 +1,89 @@
+<%- include('../partials/head', { title: 'Fraud & Risk Flags – BidSecure Admin' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarAdmin', { activeTab: 'fraud-flags' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Fraud Detection & Bidding Risk Logs' }) %>
+
+    <div class="aucp-content">
+
+      <% if (success) { %>
+        <div class="aucp-alert aucp-alert-success"><%= success %></div>
+      <% } %>
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">🚨 System Rule Engine Fraud Flags</h2>
+          <span style="font-size: 13px; color: var(--aucp-text-muted);">Configured in <code>engine/aucpEngine.js</code></span>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Flag Type</th>
+                <th>User Account</th>
+                <th>Listing</th>
+                <th>Incident Details</th>
+                <th>Timestamp</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (flags.length === 0) { %>
+                <tr>
+                  <td colspan="8" style="text-align: center; color: var(--aucp-text-muted);">No fraud or risk flags recorded in the log.</td>
+                </tr>
+              <% } else { %>
+                <% flags.forEach(flag => { %>
+                  <tr>
+                    <td><%= flag.id %></td>
+                    <td>
+                      <span class="aucp-badge <%= flag.flag_type === 'SELF_BIDDING' ? 'aucp-badge-live' : 'aucp-badge-draft' %>">
+                        <%= flag.flag_type %>
+                      </span>
+                    </td>
+                    <td>
+                      <strong><%= flag.user_name %></strong><br>
+                      <span style="font-size: 12px; color: var(--aucp-text-muted);"><%= flag.user_email %></span>
+                    </td>
+                    <td><%= flag.listing_title || 'N/A' %></td>
+                    <td style="max-width: 280px; font-size: 13px;"><%= flag.details %></td>
+                    <td><%= new Date(flag.flagged_at).toLocaleString() %></td>
+                    <td>
+                      <% if (flag.reviewed) { %>
+                        <span class="aucp-badge aucp-badge-active">REVIEWED</span>
+                      <% } else { %>
+                        <span class="aucp-badge aucp-badge-unsold">PENDING</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <div style="display:flex; gap: 6px;">
+                        <% if (!flag.reviewed) { %>
+                          <form action="/admin/fraud-flags/review/<%= flag.id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="aucp-btn aucp-btn-outline aucp-btn-sm">Resolve</button>
+                          </form>
+                        <% } %>
+
+                        <% if (flag.user_status === 'active') { %>
+                          <form action="/admin/users/suspend/<%= flag.user_id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="aucp-btn aucp-btn-danger aucp-btn-sm" onclick="return confirm('Suspend user account?')">Suspend User</button>
+                          </form>
+                        <% } else { %>
+                          <span class="aucp-badge aucp-badge-unsold">Suspended</span>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

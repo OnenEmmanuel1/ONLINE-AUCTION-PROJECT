@@ -1,0 +1,100 @@
+<%- include('../partials/head', { title: 'Create Listing – BidSecure Seller' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarSeller', { activeTab: 'create-listing' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Create New Auction Listing' }) %>
+
+    <div class="aucp-content">
+
+      <% if (error) { %>
+        <div class="aucp-alert aucp-alert-danger"><%= error %></div>
+      <% } %>
+
+      <div class="aucp-card" style="max-width: 800px; margin: 0 auto;">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">📝 Auction Item Details & Parameters</h2>
+          <span style="font-size: 12px; color: var(--aucp-text-muted);">Calabar Auction Rules Apply</span>
+        </div>
+
+        <form action="/seller/create-listing" method="POST" enctype="multipart/form-data">
+          <div class="aucp-form-group">
+            <label class="aucp-form-label" for="title">Item Title / Name *</label>
+            <input type="text" id="title" name="title" class="aucp-form-input" placeholder="e.g. Authentic Calabar Basalt Carving" required>
+          </div>
+
+          <div class="aucp-grid-2">
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="category">Category *</label>
+              <select id="category" name="category" class="aucp-form-select" required>
+                <option value="">Select Category</option>
+                <option value="Art & Antiques">Art & Antiques</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Vehicles">Vehicles</option>
+                <option value="Cultural Artifacts">Cultural Artifacts</option>
+                <option value="Home Appliances">Home Appliances</option>
+                <option value="Computers">Computers</option>
+                <option value="Fashion & Jewelry">Fashion & Jewelry</option>
+                <option value="Real Estate & Property">Real Estate & Property</option>
+              </select>
+            </div>
+
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="image">Item Photo Image *</label>
+              <input type="file" id="image" name="image" class="aucp-form-input" accept="image/*" required>
+            </div>
+          </div>
+
+          <div class="aucp-form-group">
+            <label class="aucp-form-label" for="description">Detailed Description & Provenance *</label>
+            <textarea id="description" name="description" class="aucp-form-textarea" rows="4" placeholder="Describe the physical condition, specifications, history, and terms of auction sale..." required></textarea>
+          </div>
+
+          <div class="aucp-grid-2">
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="starting_price">Starting Bid Price (NGN ₦) *</label>
+              <input type="number" step="100" id="starting_price" name="starting_price" class="aucp-form-input" placeholder="e.g. 50000" required>
+            </div>
+
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="reserve_price">Optional Reserve Price (NGN ₦)</label>
+              <input type="number" step="100" id="reserve_price" name="reserve_price" class="aucp-form-input" placeholder="e.g. 75000 (Leave blank for no reserve)">
+            </div>
+          </div>
+
+          <div class="aucp-grid-2">
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="duration_days">Auction Duration *</label>
+              <select id="duration_days" name="duration_days" class="aucp-form-select" required>
+                <option value="1">1 Day (Express Auction)</option>
+                <option value="3" selected>3 Days (Standard)</option>
+                <option value="5">5 Days</option>
+                <option value="7">7 Days (Full Week)</option>
+              </select>
+            </div>
+
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="status">Listing Status *</label>
+              <select id="status" name="status" class="aucp-form-select" required>
+                <option value="active" selected>Publish Immediately (Active)</option>
+                <option value="draft">Save as Draft</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="aucp-alert aucp-alert-warning" style="font-size: 13px; margin-top: 10px;">
+            ℹ️ <strong>Auction Lifecycle Rules:</strong> Active listings are locked once published. At the expiration of auction duration, if the highest bid meets or exceeds your reserve price, a transaction contract will automatically generate.
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button type="submit" class="aucp-btn aucp-btn-secondary" style="flex-grow: 1;">
+              Publish Auction Listing
+            </button>
+            <a href="/seller/dashboard" class="aucp-btn aucp-btn-outline">Cancel</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

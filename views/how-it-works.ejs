@@ -1,0 +1,118 @@
+<%- include('./partials/head', { title: 'How It Works & Security FAQs – BidSecure' }) %>
+
+<div style="background-color: var(--aucp-bg); min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Header Navigation -->
+  <header style="height: 80px; border-bottom: 1px solid var(--aucp-border); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; background-color: #080A0F;">
+    <div style="display: flex; align-items: center; gap: 32px;">
+      <a href="/" style="font-size: 22px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
+        🛡️ <span style="color: var(--aucp-text-primary);">BidSecure</span>
+      </a>
+
+      <nav style="display: flex; gap: 24px; font-weight: 600; font-size: 14px;">
+        <a href="/" style="color: var(--aucp-text-secondary);">Home</a>
+        <a href="/buyer/browse" style="color: var(--aucp-text-secondary);">Browse Marketplace</a>
+        <a href="/how-it-works" style="color: var(--aucp-primary);">Security & FAQs</a>
+      </nav>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <% if (currentUser) { %>
+        <a href="<%= currentUser.role === 'admin' ? '/admin/dashboard' : '/buyer/dashboard' %>" class="aucp-btn aucp-btn-outline">
+          Dashboard (<%= currentUser.name %>)
+        </a>
+      <% } else { %>
+        <a href="/login" class="aucp-btn aucp-btn-outline">Sign In</a>
+        <a href="/register" class="aucp-btn aucp-btn-primary">Register Account</a>
+      <% } %>
+    </div>
+  </header>
+
+  <!-- Main Information Content -->
+  <main style="padding: 48px 40px; max-width: 1000px; margin: 0 auto; width: 100%; flex-grow: 1;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <span class="aucp-badge aucp-badge-live" style="background: var(--aucp-primary); font-size: 12px; margin-bottom: 12px;">SECURITY & ARCHITECTURE</span>
+      <h1 style="font-size: 36px; font-weight: 900; color: #FFFFFF; margin-bottom: 12px;">How BidSecure Works</h1>
+      <p style="font-size: 16px; color: var(--aucp-text-secondary); max-width: 650px; margin: 0 auto;">
+        Learn how our three-tier security-focused system protects buyers and sellers across Calabar.
+      </p>
+    </div>
+
+    <!-- 3 Pillars Grid -->
+    <div class="aucp-grid-3" style="gap: 24px; margin-bottom: 48px;">
+      <div class="aucp-card">
+        <div style="font-size: 36px; margin-bottom: 12px;">🆔</div>
+        <h3 style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px;">1. Profile Verification</h3>
+        <p style="font-size: 14px; color: var(--aucp-text-secondary); line-height: 1.6;">
+          Full legal name, phone contact, and Calabar address details are validated server-side before bidding or listing privileges are granted.
+        </p>
+      </div>
+
+      <div class="aucp-card">
+        <div style="font-size: 36px; margin-bottom: 12px;">🔒</div>
+        <h3 style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px;">2. Real-Time Bid Engine</h3>
+        <p style="font-size: 14px; color: var(--aucp-text-secondary); line-height: 1.6;">
+          Bids are validated against live database records in <code>aucpEngine.js</code>. Self-bidding and late bids are rejected automatically.
+        </p>
+      </div>
+
+      <div class="aucp-card">
+        <div style="font-size: 36px; margin-bottom: 12px;">🛡️</div>
+        <h3 style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px;">3. AES-256-GCM Encryption</h3>
+        <p style="font-size: 14px; color: var(--aucp-text-secondary); line-height: 1.6;">
+          All settlement payment references are encrypted at rest using Node's <code>crypto</code> module with 96-bit random IV and authTag.
+        </p>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion List -->
+    <div class="aucp-card" style="padding: 36px;">
+      <h2 style="font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 24px;">Frequently Asked Questions</h2>
+
+      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--aucp-border); padding-bottom: 16px;">
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--aucp-primary); margin-bottom: 6px;">How is a winning bid determined?</h4>
+        <p style="color: var(--aucp-text-secondary); font-size: 14px;">
+          When an auction's timer expires, the system evaluates the highest submitted bid. If it meets or exceeds the seller's optional reserve price threshold, a winning transaction is generated. If reserve is not met, the item is marked as unsold.
+        </p>
+      </div>
+
+      <div style="margin-bottom: 20px; border-bottom: 1px solid var(--aucp-border); padding-bottom: 16px;">
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--aucp-primary); margin-bottom: 6px;">How does fraud monitoring work?</h4>
+        <p style="color: var(--aucp-text-secondary); font-size: 14px;">
+          Rule-based checks automatically flag self-bidding, rapid consecutive bidding (>4 bids in 60 seconds), and implausible price jumps (>=3x baseline). Flagged accounts are flagged for admin review and potential suspension.
+        </p>
+      </div>
+
+      <div>
+        <h4 style="font-size: 16px; font-weight: 700; color: var(--aucp-primary); margin-bottom: 6px;">Is payment processing real or simulated?</h4>
+        <p style="color: var(--aucp-text-secondary); font-size: 14px;">
+          BidSecure operates a simulated settlement gateway tied to transaction verification. No real monetary charge occurs, but cryptographic audit proofs are saved to MySQL.
+        </p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 36px;">
+      <a href="/buyer/browse" class="aucp-btn aucp-btn-primary" style="padding: 14px 28px; font-size: 15px;">
+        Explore Marketplace Drops &rarr;
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="aucp-footer">
+    <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <strong>BidSecure Calabar</strong> &bull; Three-Tier Security Architecture
+      </div>
+      <div style="display: flex; gap: 16px;">
+        <a href="/" style="color: var(--aucp-text-muted);">Home</a>
+        <a href="/buyer/browse" style="color: var(--aucp-text-muted);">Browse</a>
+        <a href="/login" style="color: var(--aucp-text-muted);">Sign In</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

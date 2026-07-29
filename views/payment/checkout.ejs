@@ -1,0 +1,65 @@
+<%- include('../partials/head', { title: 'Simulated Payment Checkout – BidSecure' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarBuyer', { activeTab: 'won' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Simulated Settlement Gateway' }) %>
+
+    <div class="aucp-content">
+
+      <% if (error) { %>
+        <div class="aucp-alert aucp-alert-danger"><%= error %></div>
+      <% } %>
+
+      <div class="aucp-card" style="max-width: 600px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <span class="aucp-badge aucp-badge-live" style="background: var(--aucp-warning); color: #000; margin-bottom: 8px;">SIMULATED PAYMENT PORTAL</span>
+          <h1 style="font-size: 22px; font-weight: 800;">Complete Auction Settlement</h1>
+          <p style="font-size: 13px; color: var(--aucp-text-secondary);">No real monetary transaction will occur. Tied to BidSecure verification engine.</p>
+        </div>
+
+        <div style="background-color: var(--aucp-bg); padding: 16px; border-radius: var(--aucp-radius-sm); margin-bottom: 24px;">
+          <div style="font-size: 12px; color: var(--aucp-text-muted); font-weight: 700; text-transform: uppercase;">Auction Won Item</div>
+          <div style="font-size: 18px; font-weight: 700; color: var(--aucp-text-primary); margin: 4px 0;"><%= transaction.listing_title %></div>
+          
+          <div style="display:flex; justify-content:space-between; margin-top: 12px; font-size: 14px;">
+            <span>Seller: <strong><%= transaction.seller_name %></strong></span>
+            <span>Final Winning Bid: <strong style="color: var(--aucp-secondary); font-size: 18px;">₦<%= parseFloat(transaction.final_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong></span>
+          </div>
+        </div>
+
+        <form action="/payment/checkout/<%= transaction.id %>" method="POST">
+          <div class="aucp-form-group">
+            <label class="aucp-form-label" for="card_name">Simulated Cardholder Name *</label>
+            <input type="text" id="card_name" name="card_name" class="aucp-form-input" value="<%= currentUser.name %>" required>
+          </div>
+
+          <div class="aucp-form-group">
+            <label class="aucp-form-label" for="card_number">Simulated Card Number *</label>
+            <input type="text" id="card_number" name="card_number" class="aucp-form-input" placeholder="4111 2222 3333 4444" value="4111222233334444" required>
+          </div>
+
+          <div class="aucp-grid-2">
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="expiry">Expiry (MM/YY) *</label>
+              <input type="text" id="expiry" name="expiry" class="aucp-form-input" value="12/28" required>
+            </div>
+            <div class="aucp-form-group">
+              <label class="aucp-form-label" for="cvv">CVV *</label>
+              <input type="password" id="cvv" name="cvv" class="aucp-form-input" value="123" required>
+            </div>
+          </div>
+
+          <div class="aucp-alert aucp-alert-warning" style="font-size: 12px; margin-top: 10px;">
+            🔒 <strong>Encryption Notice:</strong> Payment reference and transaction verification token will be encrypted at rest in MySQL using Node.js <code>crypto</code> module (AES-256-GCM).
+          </div>
+
+          <button type="submit" class="aucp-btn aucp-btn-secondary aucp-btn-block" style="padding: 14px; font-size: 16px;">
+            Confirm Simulated Payment (₦<%= parseFloat(transaction.final_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>) &rarr;
+          </button>
+        </form>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

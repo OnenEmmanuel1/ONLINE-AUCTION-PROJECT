@@ -1,0 +1,108 @@
+<%- include('../partials/head', { title: 'Audit Reports & CSV Export – BidSecure Admin' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarAdmin', { activeTab: 'reports' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Audit Reporting & CSV Export Console' }) %>
+
+    <div class="aucp-content">
+
+      <!-- Date Range Filter & CSV Export Card -->
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">📅 Report Date Range & Export Filters</h2>
+          <span style="font-size: 13px; color: var(--aucp-text-muted);">Calabar Auction Audit Records</span>
+        </div>
+
+        <form action="/admin/reports" method="GET" class="aucp-grid-3" style="align-items: flex-end; margin-bottom: 0;">
+          <div class="aucp-form-group" style="margin-bottom: 0;">
+            <label class="aucp-form-label" for="startDate">Start Date</label>
+            <input type="date" id="startDate" name="startDate" class="aucp-form-input" value="<%= startDate %>">
+          </div>
+
+          <div class="aucp-form-group" style="margin-bottom: 0;">
+            <label class="aucp-form-label" for="endDate">End Date</label>
+            <input type="date" id="endDate" name="endDate" class="aucp-form-input" value="<%= endDate %>">
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button type="submit" class="aucp-btn aucp-btn-primary" style="flex-grow: 1;">
+              Update Metrics
+            </button>
+            <a href="/api/admin/reports/csv?startDate=<%= startDate %>&endDate=<%= endDate %>" class="aucp-btn aucp-btn-secondary">
+              📥 Export CSV Report
+            </a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Metrics Summary Cards -->
+      <div class="aucp-grid-4">
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Auction Listings Volume</div>
+          <div class="aucp-stat-value"><%= reportData.summary.total_listings %></div>
+          <div class="aucp-stat-subtext">Listings created in range</div>
+        </div>
+
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Total Bids Submitted</div>
+          <div class="aucp-stat-value"><%= reportData.summary.total_bids %></div>
+          <div class="aucp-stat-subtext">Immutable log count</div>
+        </div>
+
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Completed Sales Count</div>
+          <div class="aucp-stat-value" style="color: var(--aucp-secondary);"><%= reportData.summary.completed_sales %></div>
+          <div class="aucp-stat-subtext">Transactions settled</div>
+        </div>
+
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Gross Completed Sales Value</div>
+          <div class="aucp-stat-value" style="color: var(--aucp-primary); font-size: 22px;">
+            ₦<%= parseFloat(reportData.summary.total_sales_value || 0).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
+          </div>
+          <div class="aucp-stat-subtext">Encrypted settlement total</div>
+        </div>
+      </div>
+
+      <!-- Fraud Flagged Activity Count Table -->
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">🚨 Flagged Activity Incidents (<%= reportData.summary.total_fraud_flags %> Total)</h2>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>Flag Type</th>
+                <th>User Account</th>
+                <th>Listing Involved</th>
+                <th>Audit Details</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (reportData.recentFlags.length === 0) { %>
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--aucp-text-muted);">No flagged activity recorded in selected date window.</td>
+                </tr>
+              <% } else { %>
+                <% reportData.recentFlags.forEach(f => { %>
+                  <tr>
+                    <td><span class="aucp-badge aucp-badge-live"><%= f.flag_type %></span></td>
+                    <td><strong><%= f.user_name %></strong> (<%= f.user_email %>)</td>
+                    <td><%= f.listing_title || 'N/A' %></td>
+                    <td style="font-size: 13px;"><%= f.details %></td>
+                    <td><%= new Date(f.flagged_at).toLocaleString() %></td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

@@ -1,0 +1,39 @@
+<aside class="aucp-sidebar">
+  <div class="aucp-sidebar-brand">
+    <span>🛡️ BidSecure</span>
+    <span class="aucp-sidebar-brand-badge" style="background-color: var(--aucp-danger);">Admin</span>
+  </div>
+
+  <ul class="aucp-sidebar-nav">
+    <li class="aucp-sidebar-section">Admin Command Center</li>
+    <li>
+      <a href="/admin/dashboard" class="aucp-sidebar-link <%= activeTab === 'admin-dashboard' ? 'aucp-active' : '' %>">
+        🖥️ System Overview
+      </a>
+    </li>
+    <li>
+      <a href="/admin/fraud-flags" class="aucp-sidebar-link <%= activeTab === 'fraud-flags' ? 'aucp-active' : '' %>">
+        🚨 Fraud & Risk Flags
+      </a>
+    </li>
+    <li>
+      <a href="/admin/auctions" class="aucp-sidebar-link <%= activeTab === 'all-auctions' ? 'aucp-active' : '' %>">
+        🔨 All Auctions & Sales
+      </a>
+    </li>
+    <li>
+      <a href="/admin/users" class="aucp-sidebar-link <%= activeTab === 'users-mgmt' ? 'aucp-active' : '' %>">
+        👥 User Management
+      </a>
+    </li>
+    <li>
+      <a href="/admin/reports" class="aucp-sidebar-link <%= activeTab === 'reports' ? 'aucp-active' : '' %>">
+        📄 Audit & CSV Reports
+      </a>
+    </li>
+  </ul>
+
+  <div class="aucp-sidebar-footer">
+    <div style="font-size:12px; color:#6B7280;">Security Authority Mode</div>
+  </div>
+</aside>

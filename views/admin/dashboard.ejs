@@ -1,0 +1,91 @@
+<%- include('../partials/head', { title: 'Admin Command Center – BidSecure' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarAdmin', { activeTab: 'admin-dashboard' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'Security Command & Monitoring Console' }) %>
+
+    <div class="aucp-content">
+
+      <% if (success) { %>
+        <div class="aucp-alert aucp-alert-success"><%= success %></div>
+      <% } %>
+
+      <div class="aucp-grid-4">
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Total Users</div>
+          <div class="aucp-stat-value"><%= stats.totalUsers %></div>
+          <div class="aucp-stat-subtext">Registered bidding/selling accounts</div>
+        </div>
+
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Total Auctions</div>
+          <div class="aucp-stat-value"><%= stats.totalListings %></div>
+          <div class="aucp-stat-subtext"><%= stats.activeListings %> currently active</div>
+        </div>
+
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Fraud Flags</div>
+          <div class="aucp-stat-value" style="color: var(--aucp-danger);"><%= stats.pendingFlags %></div>
+          <div class="aucp-stat-subtext">Unreviewed suspicious patterns</div>
+        </div>
+
+        <div class="aucp-stat-card">
+          <div class="aucp-stat-label">Total Sales Volume</div>
+          <div class="aucp-stat-value" style="color: var(--aucp-secondary); font-size: 24px;">
+            ₦<%= stats.totalSalesValue.toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
+          </div>
+          <div class="aucp-stat-subtext">Completed transactions</div>
+        </div>
+      </div>
+
+      <!-- Urgent Fraud Flags Card -->
+      <div class="aucp-card" style="border-color: var(--aucp-danger);">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title" style="color: var(--aucp-danger);">🚨 Unreviewed Security & Fraud Flags</h2>
+          <a href="/admin/fraud-flags" class="aucp-btn aucp-btn-danger aucp-btn-sm">Review All Flags</a>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>Flag Type</th>
+                <th>Flagged User</th>
+                <th>Listing Involved</th>
+                <th>Security Details</th>
+                <th>Flagged Timestamp</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (unreviewedFlags.length === 0) { %>
+                <tr>
+                  <td colspan="6" style="text-align: center; color: var(--aucp-secondary-dark);">
+                    ✅ No pending security or fraud flags detected. All clear!
+                  </td>
+                </tr>
+              <% } else { %>
+                <% unreviewedFlags.forEach(flag => { %>
+                  <tr>
+                    <td><span class="aucp-badge aucp-badge-live"><%= flag.flag_type %></span></td>
+                    <td><strong><%= flag.user_name %></strong> (<%= flag.user_email %>)</td>
+                    <td><%= flag.listing_title ? flag.listing_title : 'N/A' %></td>
+                    <td style="font-size: 13px;"><%= flag.details %></td>
+                    <td><%= new Date(flag.flagged_at).toLocaleString() %></td>
+                    <td>
+                      <form action="/admin/fraud-flags/review/<%= flag.id %>" method="POST" style="display:inline;">
+                        <button type="submit" class="aucp-btn aucp-btn-outline aucp-btn-sm">Mark Reviewed</button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

@@ -1,0 +1,757 @@
+/* 
+  BidSecure — Design System (aucp.css)
+  Theme: Dark Institutional Marketplace & Bidding Portal (Images 1, 2 & 3 visual direction)
+  Font: Inter
+  Prefix: aucp-*
+  Rules: SOLID COLOR TOKENS ONLY — NO GRADIENTS ANYWHERE.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Dark Color Tokens (Solid Colors Only) */
+  --aucp-bg: #0B0E14;               /* Deep navy / near-black main canvas */
+  --aucp-surface: #131822;          /* Elevated dark panel surface */
+  --aucp-surface-hover: #1A202C;    /* Panel hover state */
+  --aucp-surface-card: #171D2A;     /* Card background */
+  
+  --aucp-sidebar-bg: #080A0F;       /* Darkest sidebar */
+  --aucp-sidebar-text: #94A3B8;     /* Muted navigation label */
+  --aucp-sidebar-text-active: #FFFFFF;
+  --aucp-sidebar-active: #FF3B30;   /* Vibrant energetic red active state */
+  --aucp-sidebar-hover: #151B26;
+  
+  --aucp-primary: #FF3B30;          /* High-energy energetic red primary CTA */
+  --aucp-primary-dark: #D62828;
+  --aucp-primary-light: #2A1618;    /* Dark reddish tint background for highlights */
+  
+  --aucp-secondary: #10B981;        /* Emerald green for success / winning / completed */
+  --aucp-secondary-dark: #059669;
+  --aucp-secondary-light: #064E3B;
+  
+  --aucp-danger: #EF4444;           /* Alert / fraud flag red */
+  --aucp-danger-dark: #B91C1C;
+  --aucp-danger-light: #3F1212;
+  
+  --aucp-warning: #F59E0B;          /* Caution / ending soon amber */
+  --aucp-warning-light: #382408;
+  
+  --aucp-border: #1E2638;           /* Subtle dark panel border */
+  --aucp-border-dark: #2D374D;
+  
+  --aucp-text-primary: #F8FAFC;     /* Primary text color */
+  --aucp-text-secondary: #94A3B8;   /* Secondary muted text */
+  --aucp-text-muted: #64748B;       /* Placeholders and extra details */
+  
+  --aucp-topbar-bg: #0B0E14;
+  --aucp-topbar-text: #F8FAFC;
+  
+  /* Radii & Subtle Solid Elevation */
+  --aucp-radius-sm: 6px;
+  --aucp-radius-md: 12px;
+  --aucp-radius-lg: 16px;
+  --aucp-radius-pill: 9999px;
+  --aucp-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --aucp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--aucp-bg);
+  color: var(--aucp-text-primary);
+  line-height: 1.5;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--aucp-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FF6259;
+  text-decoration: none;
+}
+
+/* Application Layout Structure */
+.aucp-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Navigation (Image 1 Dark Navigation bar) */
+.aucp-sidebar {
+  width: 250px;
+  background-color: var(--aucp-sidebar-bg);
+  color: var(--aucp-sidebar-text);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--aucp-border);
+}
+
+.aucp-sidebar-brand {
+  padding: 24px 20px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #FFFFFF;
+  border-bottom: 1px solid var(--aucp-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.aucp-sidebar-brand-badge {
+  background-color: var(--aucp-primary);
+  color: #FFFFFF;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: var(--aucp-radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.aucp-sidebar-nav {
+  list-style: none;
+  padding: 20px 0;
+  flex-grow: 1;
+}
+
+.aucp-sidebar-section {
+  padding: 16px 20px 8px 20px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--aucp-text-muted);
+  letter-spacing: 1px;
+}
+
+.aucp-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: var(--aucp-sidebar-text);
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.aucp-sidebar-link:hover {
+  background-color: var(--aucp-sidebar-hover);
+  color: #FFFFFF;
+}
+
+.aucp-sidebar-link.aucp-active {
+  background-color: var(--aucp-sidebar-active);
+  color: var(--aucp-sidebar-text-active);
+  font-weight: 700;
+}
+
+.aucp-sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid var(--aucp-border);
+}
+
+/* Main Container & Topbar (Image 1 & 2 Header with integrated search bar) */
+.aucp-main-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.aucp-topbar {
+  height: 72px;
+  background-color: var(--aucp-topbar-bg);
+  border-bottom: 1px solid var(--aucp-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  gap: 24px;
+}
+
+.aucp-topbar-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--aucp-text-primary);
+  white-space: nowrap;
+}
+
+/* Search bar in header (Image 1 & 2 style) */
+.aucp-topbar-search {
+  flex-grow: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+.aucp-topbar-search input {
+  width: 100%;
+  padding: 10px 16px 10px 42px;
+  background-color: #171D2A;
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-pill);
+  color: var(--aucp-text-primary);
+  font-size: 14px;
+  outline: none;
+}
+
+.aucp-topbar-search input:focus {
+  border-color: var(--aucp-primary);
+}
+
+.aucp-topbar-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--aucp-text-muted);
+  font-size: 14px;
+}
+
+.aucp-topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.aucp-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background-color: #171D2A;
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.aucp-role-chip {
+  padding: 2px 8px;
+  border-radius: var(--aucp-radius-pill);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.aucp-role-admin {
+  background-color: var(--aucp-danger-light);
+  color: var(--aucp-danger);
+}
+
+.aucp-role-user {
+  background-color: var(--aucp-primary-light);
+  color: var(--aucp-primary);
+}
+
+.aucp-content {
+  padding: 32px;
+  flex-grow: 1;
+}
+
+/* Cards & Dark Panels (Image 1 Dark Panel Treatment) */
+.aucp-card {
+  background-color: var(--aucp-surface);
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-md);
+  padding: 24px;
+  box-shadow: var(--aucp-shadow-sm);
+  margin-bottom: 24px;
+}
+
+.aucp-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--aucp-border);
+}
+
+.aucp-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--aucp-text-primary);
+}
+
+/* Grid Layouts */
+.aucp-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.aucp-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.aucp-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+  .aucp-grid-4, .aucp-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .aucp-grid-4, .aucp-grid-3, .aucp-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Featured Hero Card (Image 1 Dashboard Hero Item Style) */
+.aucp-hero-card {
+  background-color: var(--aucp-surface-card);
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-lg);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.aucp-hero-img-box {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: var(--aucp-radius-md);
+  overflow: hidden;
+  background-color: #080A0F;
+  border: 1px solid var(--aucp-border);
+}
+
+.aucp-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dark Countdown Pill Overlaid on Item Image (Image 1 style "15h : 32m : 17s") */
+.aucp-timer-pill-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(11, 14, 20, 0.92);
+  border: 1px solid var(--aucp-border-dark);
+  color: var(--aucp-text-primary);
+  padding: 6px 16px;
+  border-radius: var(--aucp-radius-pill);
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* Category Grid Tiles (Image 3 "All Categories" Tile Style) */
+.aucp-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.aucp-category-tile {
+  background-color: var(--aucp-surface-card);
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-md);
+  padding: 20px;
+  text-align: center;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.aucp-category-tile:hover {
+  border-color: var(--aucp-primary);
+  background-color: var(--aucp-surface-hover);
+  text-decoration: none;
+}
+
+.aucp-category-icon {
+  font-size: 32px;
+}
+
+.aucp-category-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--aucp-text-primary);
+}
+
+/* Auction Card Item Grid (Image 2 & 3 Marketplace Card Style) */
+.aucp-item-card {
+  background-color: var(--aucp-surface-card);
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: border-color 0.15s ease;
+}
+
+.aucp-item-card:hover {
+  border-color: var(--aucp-border-dark);
+}
+
+.aucp-item-img-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: var(--aucp-radius-sm);
+  overflow: hidden;
+  background-color: #080A0F;
+  margin-bottom: 14px;
+  border: 1px solid var(--aucp-border);
+}
+
+.aucp-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stat Cards */
+.aucp-stat-card {
+  background-color: var(--aucp-surface-card);
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-md);
+  padding: 20px;
+}
+
+.aucp-stat-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--aucp-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.aucp-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--aucp-text-primary);
+}
+
+.aucp-stat-subtext {
+  font-size: 12px;
+  color: var(--aucp-text-secondary);
+  margin-top: 4px;
+}
+
+/* Form Styling */
+.aucp-form-group {
+  margin-bottom: 20px;
+}
+
+.aucp-form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--aucp-text-primary);
+  margin-bottom: 8px;
+}
+
+.aucp-form-input, .aucp-form-select, .aucp-form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--aucp-text-primary);
+  background-color: #171D2A;
+  border: 1px solid var(--aucp-border-dark);
+  border-radius: var(--aucp-radius-sm);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.aucp-form-input:focus, .aucp-form-select:focus, .aucp-form-textarea:focus {
+  border-color: var(--aucp-primary);
+}
+
+/* Buttons (Solid Flat Colors Only) */
+.aucp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: var(--aucp-radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.aucp-btn-primary {
+  background-color: var(--aucp-primary);
+  color: #FFFFFF;
+}
+
+.aucp-btn-primary:hover {
+  background-color: var(--aucp-primary-dark);
+  color: #FFFFFF;
+}
+
+.aucp-btn-secondary {
+  background-color: var(--aucp-secondary);
+  color: #FFFFFF;
+}
+
+.aucp-btn-secondary:hover {
+  background-color: var(--aucp-secondary-dark);
+  color: #FFFFFF;
+}
+
+.aucp-btn-danger {
+  background-color: var(--aucp-danger);
+  color: #FFFFFF;
+}
+
+.aucp-btn-danger:hover {
+  background-color: var(--aucp-danger-dark);
+  color: #FFFFFF;
+}
+
+.aucp-btn-outline {
+  background-color: transparent;
+  border-color: var(--aucp-border-dark);
+  color: var(--aucp-text-primary);
+}
+
+.aucp-btn-outline:hover {
+  background-color: #1F283B;
+  color: #FFFFFF;
+}
+
+.aucp-btn-block {
+  width: 100%;
+}
+
+.aucp-btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+/* Dark Data Tables */
+.aucp-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.aucp-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.aucp-table th {
+  background-color: #171D2A;
+  color: var(--aucp-text-secondary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 14px 16px;
+  border-bottom: 2px solid var(--aucp-border);
+}
+
+.aucp-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--aucp-border);
+  color: var(--aucp-text-primary);
+}
+
+.aucp-table tr:hover {
+  background-color: var(--aucp-surface-hover);
+}
+
+.aucp-table-row-highlight {
+  background-color: var(--aucp-primary-light) !important;
+  font-weight: 600;
+}
+
+/* Badges & Status Pills (Image 3 "LIVE NOW" Style) */
+.aucp-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: var(--aucp-radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.aucp-badge-active {
+  background-color: var(--aucp-secondary-light);
+  color: #34D399;
+}
+
+.aucp-badge-ended {
+  background-color: #1E293B;
+  color: #94A3B8;
+}
+
+.aucp-badge-sold {
+  background-color: #1E3A8A;
+  color: #93C5FD;
+}
+
+.aucp-badge-unsold {
+  background-color: var(--aucp-danger-light);
+  color: #FCA5A5;
+}
+
+.aucp-badge-draft {
+  background-color: var(--aucp-warning-light);
+  color: #FCD34D;
+}
+
+.aucp-badge-live {
+  background-color: var(--aucp-primary);
+  color: #FFFFFF;
+  animation: aucp-pulse 2s infinite;
+}
+
+@keyframes aucp-pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Live Auction Detail Displays */
+.aucp-bid-display-box {
+  background-color: var(--aucp-primary-light);
+  border: 2px solid var(--aucp-primary);
+  border-radius: var(--aucp-radius-md);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.aucp-bid-amount-giant {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--aucp-primary);
+  margin: 8px 0;
+}
+
+.aucp-timer-box {
+  background-color: #171D2A;
+  color: #FFFFFF;
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-md);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.aucp-timer-value {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: monospace;
+  color: var(--aucp-warning);
+}
+
+/* Alerts & Banners */
+.aucp-alert {
+  padding: 14px 18px;
+  border-radius: var(--aucp-radius-sm);
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.aucp-alert-danger {
+  background-color: var(--aucp-danger-light);
+  color: #FCA5A5;
+  border: 1px solid var(--aucp-danger-dark);
+}
+
+.aucp-alert-success {
+  background-color: var(--aucp-secondary-light);
+  color: #6EE7B7;
+  border: 1px solid var(--aucp-secondary-dark);
+}
+
+.aucp-alert-warning {
+  background-color: var(--aucp-warning-light);
+  color: #FCD34D;
+  border: 1px solid #78350F;
+}
+
+/* Auth Center Screen */
+.aucp-auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--aucp-bg);
+  padding: 20px;
+}
+
+.aucp-auth-box {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--aucp-surface);
+  border: 1px solid var(--aucp-border);
+  border-radius: var(--aucp-radius-lg);
+  padding: 36px;
+  box-shadow: var(--aucp-shadow-md);
+}
+
+.aucp-auth-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--aucp-text-primary);
+  margin-bottom: 6px;
+}
+
+.aucp-auth-subtitle {
+  font-size: 14px;
+  color: var(--aucp-text-secondary);
+  margin-bottom: 24px;
+}
+
+/* Footer */
+.aucp-footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+  color: var(--aucp-text-muted);
+  border-top: 1px solid var(--aucp-border);
+  background-color: var(--aucp-bg);
+  margin-top: auto;
+}

@@ -1,0 +1,70 @@
+<%- include('../partials/head', { title: 'All Auctions – BidSecure Admin' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarAdmin', { activeTab: 'all-auctions' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'All Platform Auctions & Transactions' }) %>
+
+    <div class="aucp-content">
+
+      <% if (success) { %>
+        <div class="aucp-alert aucp-alert-success"><%= success %></div>
+      <% } %>
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">🔨 Master Auctions Register</h2>
+          <span style="font-size: 13px; color: var(--aucp-text-muted);">Total Listings: <%= listings.length %></span>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Seller</th>
+                <th>Category</th>
+                <th>Start Price</th>
+                <th>Highest Bid</th>
+                <th>Status</th>
+                <th>End Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (listings.length === 0) { %>
+                <tr>
+                  <td colspan="9" style="text-align: center; color: var(--aucp-text-muted);">No auction listings in database.</td>
+                </tr>
+              <% } else { %>
+                <% listings.forEach(item => { %>
+                  <tr>
+                    <td>#<%= item.id %></td>
+                    <td><strong><%= item.title %></strong></td>
+                    <td><%= item.seller_name %></td>
+                    <td><span class="aucp-badge" style="background:#E5E7EB; color:#374151;"><%= item.category %></span></td>
+                    <td>₦<%= parseFloat(item.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></td>
+                    <td><strong style="color: var(--aucp-primary);">₦<%= parseFloat(item.current_highest_bid).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong></td>
+                    <td>
+                      <span class="aucp-badge aucp-badge-<%= item.status %>"><%= item.status.toUpperCase() %></span>
+                    </td>
+                    <td><%= new Date(item.end_at).toLocaleDateString() %></td>
+                    <td>
+                      <form action="/admin/auctions/delete/<%= item.id %>" method="POST" style="display:inline;">
+                        <button type="submit" class="aucp-btn aucp-btn-danger aucp-btn-sm" onclick="return confirm('Delete this auction listing?')">
+                          Delete
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>

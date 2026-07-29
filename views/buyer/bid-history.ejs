@@ -1,0 +1,70 @@
+<%- include('../partials/head', { title: 'My Bid History – BidSecure' }) %>
+
+<div class="aucp-layout">
+  <%- include('../partials/sidebarBuyer', { activeTab: 'bids' }) %>
+
+  <div class="aucp-main-wrapper">
+    <%- include('../partials/topbar', { pageHeader: 'My Bidding History Log' }) %>
+
+    <div class="aucp-content">
+
+      <div class="aucp-card">
+        <div class="aucp-card-header">
+          <h2 class="aucp-card-title">📜 My Submitted Bids Log</h2>
+          <span style="font-size: 13px; color: var(--aucp-text-muted);">Total Bids Placed: <%= bids.length %></span>
+        </div>
+
+        <div class="aucp-table-container">
+          <table class="aucp-table">
+            <thead>
+              <tr>
+                <th>Listing Title</th>
+                <th>Category</th>
+                <th>My Bid Amount</th>
+                <th>Current Highest Bid</th>
+                <th>Auction Status</th>
+                <th>Timestamp</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (bids.length === 0) { %>
+                <tr>
+                  <td colspan="7" style="text-align: center; color: var(--aucp-text-muted);">You have not placed any bids yet.</td>
+                </tr>
+              <% } else { %>
+                <% bids.forEach(bid => { %>
+                  <tr>
+                    <td>
+                      <strong><a href="/buyer/auction/<%= bid.listing_id %>"><%= bid.listing_title %></a></strong>
+                    </td>
+                    <td><span class="aucp-badge" style="background:#E5E7EB; color:#374151;"><%= bid.category %></span></td>
+                    <td><strong style="color: var(--aucp-primary);">₦<%= parseFloat(bid.amount).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></strong></td>
+                    <td>₦<%= parseFloat(bid.current_highest_bid).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %></td>
+                    <td>
+                      <% if (bid.listing_status === 'active') { %>
+                        <span class="aucp-badge aucp-badge-active">ACTIVE</span>
+                      <% } else if (bid.listing_status === 'sold') { %>
+                        <span class="aucp-badge aucp-badge-sold">SOLD</span>
+                      <% } else if (bid.listing_status === 'ended') { %>
+                        <span class="aucp-badge aucp-badge-ended">ENDED</span>
+                      <% } else { %>
+                        <span class="aucp-badge aucp-badge-unsold"><%= bid.listing_status.toUpperCase() %></span>
+                      <% } %>
+                    </td>
+                    <td><%= new Date(bid.placed_at).toLocaleString() %></td>
+                    <td>
+                      <a href="/buyer/auction/<%= bid.listing_id %>" class="aucp-btn aucp-btn-outline aucp-btn-sm">
+                        View Auction
+                      </a>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <%- include('../partials/footer') %>
