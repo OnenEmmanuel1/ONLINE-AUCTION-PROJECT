@@ -41,8 +41,8 @@
             </div>
 
             <div class="aucp-form-group">
-              <label class="aucp-form-label" for="image">Item Photo Image *</label>
-              <input type="file" id="image" name="image" class="aucp-form-input" accept="image/*" required>
+              <label class="aucp-form-label" for="images">Auction Images * (up to 10)</label>
+              <input type="file" id="images" name="images" class="aucp-form-input" accept="image/*" multiple required>
             </div>
           </div>
 
@@ -51,12 +51,7 @@
             <textarea id="description" name="description" class="aucp-form-textarea" rows="4" placeholder="Describe the physical condition, specifications, history, and terms of auction sale..." required></textarea>
           </div>
 
-          <div class="aucp-grid-2">
-            <div class="aucp-form-group">
-              <label class="aucp-form-label" for="starting_price">Starting Bid Price (NGN ₦) *</label>
-              <input type="number" step="100" id="starting_price" name="starting_price" class="aucp-form-input" placeholder="e.g. 50000" required>
-            </div>
-
+          <div class="aucp-form-group">
             <div class="aucp-form-group">
               <label class="aucp-form-label" for="reserve_price">Optional Reserve Price (NGN ₦)</label>
               <input type="number" step="100" id="reserve_price" name="reserve_price" class="aucp-form-input" placeholder="e.g. 75000 (Leave blank for no reserve)">

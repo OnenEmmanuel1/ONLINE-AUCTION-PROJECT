@@ -57,15 +57,15 @@ Access at [http://localhost:3000](http://localhost:3000).
 
 ## 🔑 Default Test Credentials
 
-All seed accounts use the default password: `Password123!`
+All seed accounts use the default password: `password123`
 
 | Role | Name | Email | Default Password | Capabilities |
 |---|---|---|---|---|
-| **Administrator** | System Administrator | `admin@bidsecure.com` | `Password123!` | Full system audit, fraud flags, user suspension, CSV reports |
-| **Buyer / Seller** | Effiong Bassey | `effiong@calabar.com` | `Password123!` | Bid placement, seller listing creation, payment settlement |
-| **Buyer / Seller** | Blessing Ekpenyong | `blessing@calabar.com` | `Password123!` | Bid placement, seller listing creation, payment settlement |
-| **Buyer / Seller** | Okon Edet | `okon@calabar.com` | `Password123!` | Bid placement, seller listing creation, payment settlement |
-| **Buyer / Seller** | Arit Archibong | `arit@calabar.com` | `Password123!` | Bid placement, seller listing creation, payment settlement |
+| **Administrator** | System Administrator | `admin@bidsecure.com` | `password123` | Full system audit, fraud flags, user suspension, CSV reports |
+| **Buyer / Seller** | Effiong Bassey | `effiong@calabar.com` | `password123` | Bid placement, seller listing creation, payment settlement |
+| **Buyer / Seller** | Blessing Ekpenyong | `blessing@calabar.com` | `password123` | Bid placement, seller listing creation, payment settlement |
+| **Buyer / Seller** | Okon Edet | `okon@calabar.com` | `password123` | Bid placement, seller listing creation, payment settlement |
+| **Buyer / Seller** | Arit Archibong | `arit@calabar.com` | `password123` | Bid placement, seller listing creation, payment settlement |
 
 ---
 

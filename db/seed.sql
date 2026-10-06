@@ -1,5 +1,5 @@
 -- BidSecure Seed SQL Script
-USE `bidsecure_db`;
+USE `bidsecure_portal`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `login_audit`;
@@ -11,13 +11,13 @@ TRUNCATE TABLE `listings`;
 TRUNCATE TABLE `users`;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- Default password for all seed users is: Password123!
+-- Default password for all seed users is: password123
 INSERT INTO `users` (`id`, `name`, `email`, `password_hash`, `contact`, `address`, `role`, `account_status`, `can_bid`, `can_sell`) VALUES
-(1, 'System Administrator', 'admin@bidsecure.com', '$2a$10$wE99VjQy8yT2S7XW2L8b/.8W3E.1Z0E7B3W4.8B4C.5D.6E.7F.8G', '+2348011112222', '10 Marian Road, Calabar', 'admin', 'active', 1, 1),
-(2, 'Effiong Bassey', 'effiong@calabar.com', '$2a$10$wE99VjQy8yT2S7XW2L8b/.8W3E.1Z0E7B3W4.8B4C.5D.6E.7F.8G', '+2348022223333', '45 Watt Market Street, Calabar', 'user', 'active', 1, 1),
-(3, 'Blessing Ekpenyong', 'blessing@calabar.com', '$2a$10$wE99VjQy8yT2S7XW2L8b/.8W3E.1Z0E7B3W4.8B4C.5D.6E.7F.8G', '+2348033334444', '12 Mary Slessor Avenue, Calabar', 'user', 'active', 1, 1),
-(4, 'Okon Edet', 'okon@calabar.com', '$2a$10$wE99VjQy8yT2S7XW2L8b/.8W3E.1Z0E7B3W4.8B4C.5D.6E.7F.8G', '+2348044445555', '88 Murtala Mohammed Highway, Calabar', 'user', 'active', 1, 1),
-(5, 'Arit Archibong', 'arit@calabar.com', '$2a$10$wE99VjQy8yT2S7XW2L8b/.8W3E.1Z0E7B3W4.8B4C.5D.6E.7F.8G', '+2348055556666', '23 Target Road, Calabar', 'user', 'active', 1, 1);
+(1, 'System Administrator', 'admin@bidsecure.com', '$2a$10$tBc4.Qb5d6Os/EmWNkkzweJFZPeFVFTTGkKK2UdYjWdvErn9oXJ8e', '+2348011112222', '10 Marian Road, Calabar', 'admin', 'active', 1, 1),
+(2, 'Effiong Bassey', 'effiong@calabar.com', '$2a$10$tBc4.Qb5d6Os/EmWNkkzweJFZPeFVFTTGkKK2UdYjWdvErn9oXJ8e', '+2348022223333', '45 Watt Market Street, Calabar', 'user', 'active', 1, 1),
+(3, 'Blessing Ekpenyong', 'blessing@calabar.com', '$2a$10$tBc4.Qb5d6Os/EmWNkkzweJFZPeFVFTTGkKK2UdYjWdvErn9oXJ8e', '+2348033334444', '12 Mary Slessor Avenue, Calabar', 'user', 'active', 1, 1),
+(4, 'Okon Edet', 'okon@calabar.com', '$2a$10$tBc4.Qb5d6Os/EmWNkkzweJFZPeFVFTTGkKK2UdYjWdvErn9oXJ8e', '+2348044445555', '88 Murtala Mohammed Highway, Calabar', 'user', 'active', 1, 1),
+(5, 'Arit Archibong', 'arit@calabar.com', '$2a$10$tBc4.Qb5d6Os/EmWNkkzweJFZPeFVFTTGkKK2UdYjWdvErn9oXJ8e', '+2348055556666', '23 Target Road, Calabar', 'user', 'active', 1, 1);
 
 INSERT INTO `listings` (`id`, `seller_id`, `title`, `description`, `category`, `starting_price`, `reserve_price`, `current_highest_bid`, `start_at`, `end_at`, `status`) VALUES
 (1, 2, 'Nike x Off-White - Air Force 1 "Volt" (Size 43)', 'Limited edition deadstock Virgil Abloh collaboration sneakers with original zip-tie tag and box provenance.', 'Fashion & Jewelry', 150000.00, 180000.00, 240000.00, NOW() - INTERVAL 2 DAY, NOW() + INTERVAL 3 DAY, 'active'),

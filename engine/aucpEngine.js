@@ -73,7 +73,7 @@ async function checkFraudRules(listingId, bidderId, proposedAmount) {
   const flags = [];
 
   // Fetch listing details
-  const [listings] = await db.query('SELECT seller_id, current_highest_bid, starting_price FROM listings WHERE id = ?', [listingId]);
+  const [listings] = await db.query('SELECT seller_id, current_highest_bid FROM listings WHERE id = ?', [listingId]);
   if (listings.length === 0) return flags;
   const listing = listings[0];
 
@@ -100,9 +100,7 @@ async function checkFraudRules(listingId, bidderId, proposedAmount) {
   }
 
   // Rule 3: Implausible Bid Jump
-  const baseline = parseFloat(listing.current_highest_bid) > 0 
-    ? parseFloat(listing.current_highest_bid) 
-    : parseFloat(listing.starting_price);
+  const baseline = parseFloat(listing.current_highest_bid);
   
   if (baseline > 0 && proposedAmount >= baseline * FRAUD_CONFIG.IMPLAUSIBLE_JUMP_MULTIPLIER) {
     flags.push({
@@ -171,8 +169,7 @@ async function validateAndPlaceBid(listingId, bidderId, bidAmount) {
 
   // Server-side bid amount threshold check
   const currentHighest = parseFloat(listing.current_highest_bid);
-  const startingPrice = parseFloat(listing.starting_price);
-  const minimumRequiredBid = currentHighest > 0 ? currentHighest + 1.00 : startingPrice;
+  const minimumRequiredBid = currentHighest + 1.00;
 
   if (amount < minimumRequiredBid) {
     return { 

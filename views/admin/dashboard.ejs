@@ -43,7 +43,7 @@
       <!-- Urgent Fraud Flags Card -->
       <div class="aucp-card" style="border-color: var(--aucp-danger);">
         <div class="aucp-card-header">
-          <h2 class="aucp-card-title" style="color: var(--aucp-danger);">🚨 Unreviewed Security & Fraud Flags</h2>
+          <h2 class="aucp-card-title" style="color: var(--aucp-danger);"><i class="ti ti-alert-triangle" style="vertical-align: middle;"></i> Unreviewed Security & Fraud Flags</h2>
           <a href="/admin/fraud-flags" class="aucp-btn aucp-btn-danger aucp-btn-sm">Review All Flags</a>
         </div>
 
@@ -63,7 +63,7 @@
               <% if (unreviewedFlags.length === 0) { %>
                 <tr>
                   <td colspan="6" style="text-align: center; color: var(--aucp-secondary-dark);">
-                    ✅ No pending security or fraud flags detected. All clear!
+                    <i class="ti ti-check" style="vertical-align: middle;"></i> No pending security or fraud flags detected. All clear!
                   </td>
                 </tr>
               <% } else { %>

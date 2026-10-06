@@ -6,7 +6,7 @@
   Rules: SOLID COLOR TOKENS ONLY — NO GRADIENTS ANYWHERE.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 :root {
   /* Dark Color Tokens (Solid Colors Only) */
@@ -47,12 +47,12 @@
   --aucp-topbar-text: #F8FAFC;
   
   /* Radii & Subtle Solid Elevation */
-  --aucp-radius-sm: 6px;
-  --aucp-radius-md: 12px;
-  --aucp-radius-lg: 16px;
+  --aucp-radius-sm: 4px;
+  --aucp-radius-md: 8px;
+  --aucp-radius-lg: 12px;
   --aucp-radius-pill: 9999px;
-  --aucp-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --aucp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --aucp-shadow-sm: none;
+  --aucp-shadow-md: none;
 }
 
 /* Reset & Base Styles */
@@ -63,7 +63,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--aucp-bg);
   color: var(--aucp-text-primary);
   line-height: 1.5;

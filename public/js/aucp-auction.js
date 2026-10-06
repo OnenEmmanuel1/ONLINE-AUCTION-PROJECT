@@ -87,11 +87,10 @@ class AucpLiveAuction {
 
   updateDOM(data) {
     const highest = parseFloat(data.currentHighestBid);
-    const starting = parseFloat(data.startingPrice);
-    const minBidRequired = highest > 0 ? highest + 1.00 : starting;
+    const minBidRequired = highest + 1.00;
 
     if (this.highestBidElement) {
-      this.highestBidElement.innerText = `₦${highest > 0 ? highest.toLocaleString('en-NG', { minimumFractionDigits: 2 }) : starting.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
+      this.highestBidElement.innerText = `₦${highest.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
     }
 
     if (this.minBidNoticeElement) {

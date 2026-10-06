@@ -37,7 +37,11 @@
           <!-- Item Main Image with Overlay Countdown Pill -->
           <div style="position: relative; width: 100%; border-radius: var(--aucp-radius-md); overflow: hidden; background: #080A0F; border: 1px solid var(--aucp-border); margin-bottom: 28px;">
             <% if (images && images.length > 0) { %>
-              <img src="<%= images[0].filename.startsWith('http') ? images[0].filename : '/uploads/listings/' + images[0].filename %>" alt="<%= listing.title %>" style="width: 100%; max-height: 440px; object-fit: contain; display: block;">
+              <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; padding:12px;">
+                <% images.forEach((image, index) => { %>
+                  <img src="<%= image.filename.startsWith('http') ? image.filename : '/uploads/listings/' + image.filename %>" alt="<%= listing.title %> image <%= index + 1 %>" style="width:100%; height:260px; object-fit:contain; display:block; border-radius:8px; background:#080A0F;">
+                <% }); %>
+              </div>
             <% } else { %>
               <div style="width: 100%; height: 340px; display: flex; align-items: center; justify-content: center; font-size: 54px; color: var(--aucp-text-muted);">
                 🖼️
@@ -104,10 +108,10 @@
         <div class="aucp-bid-display-box">
           <div style="font-size: 12px; text-transform: uppercase; font-weight: 800; color: var(--aucp-text-secondary); letter-spacing: 0.5px;">Current Highest Bid</div>
           <div id="highestBidValue" class="aucp-bid-amount-giant">
-            ₦<%= parseFloat(listing.current_highest_bid) > 0 ? parseFloat(listing.current_highest_bid).toLocaleString('en-NG', { minimumFractionDigits: 2 }) : parseFloat(listing.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
+            ₦<%= parseFloat(listing.current_highest_bid).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
           </div>
           <div id="minBidNotice" style="font-size: 12px; color: var(--aucp-text-secondary); font-weight: 600;">
-            Starting Price: ₦<%= parseFloat(listing.starting_price).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
+            Minimum next bid: ₦<%= (parseFloat(listing.current_highest_bid) + 1).toLocaleString('en-NG', { minimumFractionDigits: 2 }) %>
           </div>
         </div>
 
@@ -144,7 +148,7 @@
             <form id="placeBidForm">
               <div class="aucp-form-group">
                 <label class="aucp-form-label" for="amount">Enter Your Bid (NGN ₦)</label>
-                <input type="number" step="100" id="amount" name="amount" class="aucp-form-input" placeholder="e.g. <%= (parseFloat(listing.current_highest_bid) > 0 ? parseFloat(listing.current_highest_bid) + 1000 : parseFloat(listing.starting_price) + 1000) %>" required>
+                <input type="number" step="100" id="amount" name="amount" class="aucp-form-input" placeholder="e.g. <%= parseFloat(listing.current_highest_bid) + 1000 %>" required>
               </div>
 
               <div style="font-size: 12px; color: var(--aucp-text-muted); margin-bottom: 18px;">

@@ -1,7 +1,7 @@
 <header style="height: 80px; border-bottom: 1px solid var(--aucp-border); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; background-color: #080A0F; position: sticky; top: 0; z-index: 1000;">
   <div style="display: flex; align-items: center; gap: 32px;">
     <a href="/" style="font-size: 22px; font-weight: 800; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
-      🛡️ <span style="color: var(--aucp-text-primary);">BidSecure</span>
+      <i class="ti ti-shield-check" style="vertical-align: middle;"></i> <span style="color: var(--aucp-text-primary);">BidSecure</span>
     </a>
 
     <nav style="display: flex; gap: 24px; font-weight: 600; font-size: 14px;">
@@ -14,7 +14,7 @@
   <!-- Header Search Input -->
   <div class="aucp-topbar-search" style="max-width: 380px;">
     <form action="/buyer/browse" method="GET" style="margin: 0;">
-      <span class="aucp-topbar-search-icon">🔍</span>
+      <span class="aucp-topbar-search-icon"><i class="ti ti-search"></i></span>
       <input type="text" name="q" placeholder="Search title, category, drop..." aria-label="Search auctions" value="<%= typeof query !== 'undefined' && query && query.q ? query.q : '' %>">
     </form>
   </div>
@@ -22,7 +22,7 @@
   <div style="display: flex; align-items: center; gap: 16px;">
     <% if (currentUser) { %>
       <div class="aucp-user-badge">
-        <span>👤 <strong><%= currentUser.name %></strong></span>
+        <span><i class="ti ti-user" style="vertical-align: middle;"></i> <strong><%= currentUser.name %></strong></span>
       </div>
       <a href="<%= currentUser.role === 'admin' ? '/admin/dashboard' : '/buyer/dashboard' %>" class="aucp-btn aucp-btn-primary aucp-btn-sm">
         My Dashboard &rarr;

@@ -5,7 +5,7 @@
 
   <div class="aucp-topbar-search">
     <form action="/buyer/browse" method="GET" style="margin: 0;">
-      <span class="aucp-topbar-search-icon">🔍</span>
+      <span class="aucp-topbar-search-icon"><i class="ti ti-search"></i></span>
       <input type="text" name="q" placeholder="Search for items, categories, or listings..." aria-label="Search auctions">
     </form>
   </div>
@@ -13,7 +13,7 @@
   <div class="aucp-topbar-user">
     <% if (currentUser) { %>
       <div class="aucp-user-badge">
-        <span>👤 <strong><%= currentUser.name %></strong></span>
+        <span><i class="ti ti-user" style="vertical-align: middle;"></i> <strong><%= currentUser.name %></strong></span>
         <span class="aucp-role-chip <%= currentUser.role === 'admin' ? 'aucp-role-admin' : 'aucp-role-user' %>">
           <%= currentUser.role === 'admin' ? 'Admin' : 'Member' %>
         </span>

@@ -76,7 +76,7 @@ router.get('/auction/:id', async (req, res, next) => {
 
     const listing = listings[0];
 
-    const [images] = await db.query('SELECT * FROM listing_images WHERE listing_id = ?', [listingId]);
+    const [images] = await db.query('SELECT * FROM listing_images WHERE listing_id = ? ORDER BY id', [listingId]);
     const [bids] = await db.query(
       `SELECT b.*, u.name as bidder_name 
        FROM bids b
@@ -229,7 +229,7 @@ router.post('/payment/checkout/:txId', requireLogin, requireVerified, async (req
       });
     }
 
-    res.redirect(`/payment/success?tx=${txId}`);
+    res.redirect(`/buyer/payment/success?tx=${txId}`);
   } catch (err) {
     next(err);
   }

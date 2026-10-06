@@ -16,7 +16,7 @@ router.get('/:listingId/live', async (req, res) => {
 
   try {
     const [listings] = await db.query(
-      'SELECT id, title, starting_price, current_highest_bid, end_at, status FROM listings WHERE id = ?',
+      'SELECT id, title, current_highest_bid, end_at, status FROM listings WHERE id = ?',
       [listingId]
     );
 
@@ -42,7 +42,6 @@ router.get('/:listingId/live', async (req, res) => {
       success: true,
       listingId: listing.id,
       status: listing.status,
-      startingPrice: listing.starting_price,
       currentHighestBid: listing.current_highest_bid,
       endAt: listing.end_at,
       timeRemainingMs,

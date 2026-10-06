@@ -95,16 +95,21 @@ app.use((err, req, res, next) => {
   });
 });
 
+const { initDatabase } = require('./db/initDatabase');
+
 // ─── 7. Server Initialization & Cron Engine Loop ─────────────────────────────
 const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   try {
-    // Verify MySQL Connection
+    // 1. Ensure database, tables, and initial seed data exist
+    await initDatabase(false);
+
+    // 2. Verify MySQL Connection Pool
     await db.query('SELECT 1');
     console.log('[BidSecure DB] MySQL database connected successfully.');
 
-    // Start background auction lifecycle resolution job (Runs every 30 seconds)
+    // 3. Start background auction lifecycle resolution job (Runs every 30 seconds)
     cron.schedule('*/30 * * * * *', async () => {
       try {
         const resolved = await engine.resolveExpiredAuctions();

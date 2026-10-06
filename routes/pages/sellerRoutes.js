@@ -52,11 +52,11 @@ router.get('/create-listing', (req, res) => {
 });
 
 // POST /seller/create-listing (Multer photo upload + DB record creation)
-router.post('/create-listing', upload.single('image'), async (req, res, next) => {
+router.post('/create-listing', upload.array('images', 10), async (req, res, next) => {
   const sellerId = req.session.user.id;
-  const { title, category, description, starting_price, reserve_price, duration_days, status } = req.body;
+  const { title, category, description, reserve_price, duration_days, status } = req.body;
 
-  if (!title || !category || !description || !starting_price || !req.file) {
+  if (!title || !category || !description || !req.files || req.files.length === 0) {
     return res.render('seller/create-listing', {
       activeTab: 'create-listing',
       error: 'Please fill in all required fields and upload an item image.'
@@ -68,7 +68,6 @@ router.post('/create-listing', upload.single('image'), async (req, res, next) =>
     const days = parseInt(duration_days || '3', 10);
     const endAt = new Date(startAt.getTime() + days * 24 * 60 * 60 * 1000);
 
-    const startPriceNum = parseFloat(starting_price);
     const reservePriceNum = reserve_price && parseFloat(reserve_price) > 0 ? parseFloat(reserve_price) : null;
     const listingStatus = status === 'draft' ? 'draft' : 'active';
 
@@ -78,18 +77,19 @@ router.post('/create-listing', upload.single('image'), async (req, res, next) =>
 
       const [result] = await connection.query(
         `INSERT INTO listings (seller_id, title, description, category, starting_price, reserve_price, current_highest_bid, start_at, end_at, status, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, 0.00, ?, ?, ?, NOW())`,
-        [sellerId, title.trim(), description.trim(), category.trim(), startPriceNum, reservePriceNum, startAt, endAt, listingStatus]
+         VALUES (?, ?, ?, ?, 0.00, ?, 0.00, ?, ?, ?, NOW())`,
+        [sellerId, title.trim(), description.trim(), category.trim(), reservePriceNum, startAt, endAt, listingStatus]
       );
 
       const listingId = result.insertId;
 
-      // Save uploaded image in listing_images table
-      await connection.query(
-        `INSERT INTO listing_images (listing_id, filename, storage_path, created_at)
-         VALUES (?, ?, ?, NOW())`,
-        [listingId, req.file.filename, req.file.path]
-      );
+      for (const file of req.files) {
+        await connection.query(
+          `INSERT INTO listing_images (listing_id, filename, storage_path, created_at)
+           VALUES (?, ?, ?, NOW())`,
+          [listingId, file.filename, file.path]
+        );
+      }
 
       await connection.commit();
       res.redirect('/seller/my-listings?success=Listing created successfully!');

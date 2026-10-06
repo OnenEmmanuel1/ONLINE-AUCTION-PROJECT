@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <form action="/payment/checkout/<%= transaction.id %>" method="POST">
+        <form action="/buyer/payment/checkout/<%= transaction.id %>" method="POST">
           <div class="aucp-form-group">
             <label class="aucp-form-label" for="card_name">Simulated Cardholder Name *</label>
             <input type="text" id="card_name" name="card_name" class="aucp-form-input" value="<%= currentUser.name %>" required>

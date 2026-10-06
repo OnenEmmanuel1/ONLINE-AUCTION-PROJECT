@@ -1,8 +1,8 @@
 -- BidSecure: Secure Online Auction Portal Schema for Calabar
 -- Engine: InnoDB, Charset: utf8mb4
 
-CREATE DATABASE IF NOT EXISTS `bidsecure_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `bidsecure_db`;
+CREATE DATABASE IF NOT EXISTS `bidsecure_portal` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `bidsecure_portal`;
 
 -- Drop existing tables in reverse dependency order
 DROP TABLE IF EXISTS `login_audit`;
